@@ -26,10 +26,10 @@ export default function Dashboard() {
         setDomId(savedDomId);
         loadQuestionnaires(savedDomId);
       } else {
-        // Redirect to create a new Dom user if none exists
+        // Alert the user and redirect if no Dom user exists
         alert('No Dom user found. Please create one.');
-        // Here, you can redirect to a different page if needed
-        // Example: router.push('/create-dom-user'); 
+        // Optional: Redirect to a user creation page
+        // router.push('/create-dom-user'); 
       }
     };
     initDom();
@@ -44,8 +44,10 @@ export default function Dashboard() {
       .eq('dom_id', domIdToLoad)
       .order('created_at', { ascending: false });
 
-    if (!error && data) {
-      setQuestionnaires(data);
+    if (error) {
+      console.error('Error loading questionnaires:', error);
+    } else {
+      setQuestionnaires(data || []); // Ensure we handle potential null data
     }
     setLoading(false);
   };
