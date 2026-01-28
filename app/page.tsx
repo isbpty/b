@@ -12,6 +12,17 @@ interface Questionnaire {
   responded: boolean;
 }
 
+export async function getServerSideProps({ res }) {
+  // Set no-cache headers
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+
+  return {
+    props: {}, // Return any props you might need here
+  };
+}
+
 export default function Dashboard() {
   const [domId, setDomId] = useState('');
   const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
