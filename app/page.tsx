@@ -25,6 +25,10 @@ export default function Dashboard() {
       if (savedDomId) {
         setDomId(savedDomId);
         loadQuestionnaires(savedDomId);
+      } else {
+        // Redirect to create a new Dom user if none exists
+        alert('No Dom user found. Please create one.');
+        // Handle redirect logic based on your requirements
       }
     };
     initDom();
@@ -48,51 +52,4 @@ export default function Dashboard() {
   // Toggle Create Form
   const toggleCreateForm = () => {
     setShowCreateForm(!showCreateForm);
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-gray-900 to-black p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl p-6 border border-purple-500/30 mb-8">
-          <h1 className="text-3xl font-bold text-purple-400">🎯 Dashboard</h1>
-          <button
-            onClick={toggleCreateForm}
-            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-          >
-            {showCreateForm ? '✖️ Cancel' : '➕ Create Questionnaire'}
-          </button>
-        </div>
-
-        {/* Create Questionnaire Form */}
-        {showCreateForm && (
-          <CreateQuestionnaireForm domId={domId} onQuestionnaireCreated={loadQuestionnaires} />
-        )}
-
-        {/* Questionnaires List */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl p-6 border border-purple-500/30">
-          <h2 className="text-2xl font-bold text-purple-400 mb-6">
-            📋 Your Questionnaires ({questionnaires.length})
-          </h2>
-
-          {loading ? (
-            <p className="text-gray-400 text-center py-8">Loading...</p>
-          ) : questionnaires.length === 0 ? (
-            <p className="text-gray-400 text-center py-8">No questionnaires yet. Create your first one!</p>
-          ) : (
-            <div className="space-y-4">
-              {questionnaires.map((questionnaire) => (
-                <div key={questionnaire.id} className="bg-gray-700/50 rounded-lg p-6 border border-gray-600">
-                  <h3 className="text-xl font-bold text-purple-300">{questionnaire.title}</h3>
-                  <p className="text-gray-400 text-sm">Created: {new Date(questionnaire.created_at).toLocaleString()}</p>
-                  <p className={`text-sm mt-2 ${questionnaire.responded ? 'text-green-400' : 'text-yellow-400'}`}>
-                    {questionnaire.responded ? '✅ Responded' : '⏳ Waiting for response'}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+  };*
