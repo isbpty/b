@@ -18,24 +18,20 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
 
-  // Initialize Dom User
   useEffect(() => {
     const initDom = async () => {
       const savedDomId = localStorage.getItem('domId');
+      console.log('Saved Dom ID:', savedDomId); // Debugging line
       if (savedDomId) {
         setDomId(savedDomId);
         loadQuestionnaires(savedDomId);
       } else {
-        // Alert the user and redirect if no Dom user exists
         alert('No Dom user found. Please create one.');
-        // Optional: Redirect to a user creation page
-        // router.push('/create-dom-user'); 
       }
     };
     initDom();
   }, []);
 
-  // Load all questionnaires
   const loadQuestionnaires = async (domIdToLoad: string) => {
     setLoading(true);
     const { data, error } = await supabase
@@ -47,12 +43,11 @@ export default function Dashboard() {
     if (error) {
       console.error('Error loading questionnaires:', error);
     } else {
-      setQuestionnaires(data || []); // Ensure we handle potential null data
+      setQuestionnaires(data || []);
     }
     setLoading(false);
   };
 
-  // Toggle Create Form
   const toggleCreateForm = () => {
     setShowCreateForm(!showCreateForm);
   };
@@ -70,12 +65,10 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Create Questionnaire Form */}
         {showCreateForm && (
           <CreateQuestionnaireForm domId={domId} onQuestionnaireCreated={loadQuestionnaires} />
         )}
 
-        {/* Questionnaires List */}
         <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-2xl p-6 border border-purple-500/30">
           <h2 className="text-2xl font-bold text-purple-400 mb-6">
             📋 Your Questionnaires ({questionnaires.length})
