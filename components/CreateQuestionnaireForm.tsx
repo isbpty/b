@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 interface CreateQuestionnaireFormProps {
   domId: string;
@@ -11,6 +12,7 @@ interface CreateQuestionnaireFormProps {
 const CreateQuestionnaireForm: React.FC<CreateQuestionnaireFormProps> = ({ domId, onQuestionnaireCreated }) => {
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter(); // Add useRouter hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +28,7 @@ const CreateQuestionnaireForm: React.FC<CreateQuestionnaireFormProps> = ({ domId
       alert('Questionnaire created!');
       setTitle('');
       onQuestionnaireCreated(domId);
+      router.push('/'); // Redirect back to the dashboard
     }
 
     setLoading(false);
